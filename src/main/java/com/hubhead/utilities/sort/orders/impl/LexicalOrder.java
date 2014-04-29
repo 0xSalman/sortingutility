@@ -11,11 +11,8 @@ import java.util.Arrays;
  */
 public class LexicalOrder extends SortOrder {
 
-    private Configurations configurations;
-
     public LexicalOrder(Configurations configurations) {
-        super(OrderTypes.LEXICAL);
-        this.configurations = configurations;
+        super(OrderTypes.LEXICAL, configurations);
     }
 
     @Override
@@ -23,23 +20,23 @@ public class LexicalOrder extends SortOrder {
 
         System.out.println("Start LexicalOrder.process()");
 
-        String [] list = this.readFile(configurations.getSourceFile(), configurations.getFileEncoding());
+        String[] words = this.readFile();
 
-        if (list == null) {
-            System.out.println(configurations.getSourceFile() + " is empty or could not read. Exiting!!");
+        if (words == null) {
+            System.out.println(this.getConfigurations().getSourceFile() + " is empty or could not read. Exiting!!");
             return;
         }
-        if (list.length == 0) {
+        if (words.length == 0) {
             // can stop here from processing further
-            System.out.println(configurations.getSourceFile() + " is empty");
+            System.out.println(this.getConfigurations().getSourceFile() + " is empty");
         }
 
         /* not using custom sorting because java sort by default
          *  is UTF-16 based and uses modified version of merge sort
          *  so it should be good
          */
-        Arrays.sort(list);
-        this.writeToFile(configurations.getTargetFile(), list, configurations.getFileEncoding());
+        Arrays.sort(words);
+        this.writeToFile(words);
 
         System.out.println("End LexicalOrder.process()");
     }

@@ -9,7 +9,7 @@
 
     <name>sortingutility</name>
     <url>http://www.hubhead.com</url>
-    <description>Utility to read words from a file, sort them alphabetically using different sorting order and
+    <description>Utility to read words from a unicode text file, words are separated by spaces or new lines. Sort the words alphabetically using different sorting order and
         algorithms and write result to another file
     </description>
 
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>15.0-rc1</version>
+            <version>16.0.1</version>
         </dependency>
     </dependencies>
 </project>

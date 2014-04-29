@@ -12,11 +12,8 @@ import java.text.Collator;
  */
 public class SpecificOrder extends SortOrder {
 
-    private Configurations configurations;
-
     public SpecificOrder(Configurations configurations) {
-        super(OrderTypes.SPECIFIC);
-        this.configurations = configurations;
+        super(OrderTypes.SPECIFIC, configurations);
     }
 
     @Override
@@ -24,22 +21,22 @@ public class SpecificOrder extends SortOrder {
 
         System.out.println("Start SpecificOrder.process()");
 
-        String [] list = this.readFile(configurations.getSourceFile(), configurations.getFileEncoding());
+        String [] list = this.readFile();
 
         if (list == null) {
-            System.out.println(configurations.getSourceFile() + " is empty or could not read. Exiting!!");
+            System.out.println(this.getConfigurations().getSourceFile() + " is empty or could not read. Exiting!!");
             return;
         }
         if (list.length == 0) {
             // can stop here from processing further
-            System.out.println(configurations.getSourceFile() + " is empty");
+            System.out.println(this.getConfigurations().getSourceFile() + " is empty");
         }
 
         AlgorithmsContext context = new AlgorithmsContext();
-        Collator collator = Collator.getInstance(configurations.getSortingLangLocal());
-        list = context.sort(configurations.getAlgorithmType(), list, collator);
+        Collator collator = Collator.getInstance(this.getConfigurations().getSortingLangLocal());
+        list = context.sort(this.getConfigurations().getAlgorithmType(), list, collator);
 
-        this.writeToFile(configurations.getTargetFile(), list, configurations.getFileEncoding());
+        this.writeToFile(list);
 
         System.out.println("End SpecificOrder.process()");
     }

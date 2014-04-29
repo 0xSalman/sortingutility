@@ -12,30 +12,32 @@ public class MergeSort implements AlgorithmsStrategy {
     private Collator collator;
 
     @Override
-    public String[] sort(String[] list, Collator collator) {
+    public String[] sort(String[] words, Collator collator) {
 
+        System.out.println("Start MergeSort.sort()");
         this.collator = collator;
-        mergeSort(list, 0, list.length - 1);
-        return list;
+        mergeSort(words, 0, words.length - 1);
+        System.out.println("End MergeSort.sort()");
+        return words;
     }
 
-    private void mergeSort(String[] list, int first, int last) {
+    private void mergeSort(String[] words, int first, int last) {
 
         if (first < last) {
             int mid = (first + last) / 2;
             // sort left half of the array
-            mergeSort(list, first, mid);
+            mergeSort(words, first, mid);
             // sort right half of the array
-            mergeSort(list, mid + 1, last);
+            mergeSort(words, mid + 1, last);
 
             // merge the two halves
-            merge(list, first, mid, last);
+            merge(words, first, mid, last);
         }
     }
 
-    private void merge(String[] list, int first, int mid, int last) {
+    private void merge(String[] words, int first, int mid, int last) {
 
-        String[] tmpList = new String[list.length];
+        String[] tmpList = new String[words.length];
 
         // beginning and end of first subarray
         int tmpFirstArStart = first;
@@ -47,11 +49,11 @@ public class MergeSort implements AlgorithmsStrategy {
         int index = tmpFirstArStart;
 
         while((tmpFirstArStart <= tmpFirstArEnd) && (tmpSecondArStart <= tmpSecondArEnd)) {
-            if (collator.compare(list[tmpFirstArStart], list[tmpSecondArStart]) < 0) {
-                tmpList[index] = list[tmpFirstArStart];
+            if (collator.compare(words[tmpFirstArStart], words[tmpSecondArStart]) < 0) {
+                tmpList[index] = words[tmpFirstArStart];
                 tmpFirstArStart++;
             } else {
-                tmpList[index] = list[tmpSecondArStart];
+                tmpList[index] = words[tmpSecondArStart];
                 tmpSecondArStart++;
             }
             index++;
@@ -59,22 +61,25 @@ public class MergeSort implements AlgorithmsStrategy {
 
         // finish off the first subarray, if necessary
         while (tmpFirstArStart <= tmpFirstArEnd) {
-            tmpList[index] = list[tmpFirstArStart];
+            tmpList[index] = words[tmpFirstArStart];
             tmpFirstArStart++;
             index++;
         }
 
         // finish off the second subarray, if necessary
         while (tmpSecondArStart <= tmpSecondArEnd) {
-            tmpList[index] = list[tmpSecondArStart];
+            tmpList[index] = words[tmpSecondArStart];
             tmpSecondArStart++;
             index++;
         }
 
         // copy the result back into original array
         for (index = first; index <= last; index++) {
-            list[index] = tmpList[index];
+            words[index] = tmpList[index];
         }
+
+        // attempt to free memory
+        tmpList = null;
     }
 
 }

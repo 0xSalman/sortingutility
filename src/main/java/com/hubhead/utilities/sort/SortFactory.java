@@ -2,6 +2,7 @@ package com.hubhead.utilities.sort;
 
 import com.hubhead.utilities.sort.orders.SortOrder;
 import com.hubhead.utilities.sort.orders.impl.LexicalOrder;
+import com.hubhead.utilities.sort.orders.impl.LocalOrder;
 import com.hubhead.utilities.sort.orders.impl.SpecificOrder;
 import com.hubhead.utilities.sort.utils.Configurations;
 
@@ -42,7 +43,7 @@ public class SortFactory {
                 sortOrder = new LexicalOrder(config);
                 break;
             case LOCAL:
-                sortOrder = new LexicalOrder(config);
+                sortOrder = new LocalOrder(config);
                 break;
             case SPECIFIC:
                 sortOrder = new SpecificOrder(config);
