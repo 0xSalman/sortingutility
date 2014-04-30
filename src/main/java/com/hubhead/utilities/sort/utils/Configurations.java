@@ -80,14 +80,17 @@ public class Configurations {
         props = new Properties();
 
         try {
-            props.load(Configurations.class.getClassLoader().getResourceAsStream(PROP_NAME));
+            props.load(new FileInputStream(PROP_NAME));
             loadConfigurations();
         } catch (FileNotFoundException ex) {
             System.out.println("Could not find property file " + PROP_NAME);
             ex.printStackTrace();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
