@@ -44,6 +44,9 @@ public abstract class SortOrder {
             words = list.toArray(new String[list.size()]);
             // free memory
             list = null;
+        } catch (IOException ex) {
+            System.out.println("Could not read source file " + configurations.getSourceFile() + ". Exiting!!");
+            ex.printStackTrace();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
@@ -79,6 +82,9 @@ public abstract class SortOrder {
             }
             // free memory
             words = null;
+        } catch (IOException ex) {
+            System.out.println("Could not write to target file " + configurations.getTargetFile() + ". Exiting!!");
+            ex.printStackTrace();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();

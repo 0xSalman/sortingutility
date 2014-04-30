@@ -25,12 +25,8 @@ public class MergeSort implements AlgorithmsStrategy {
 
         if (first < last) {
             int mid = (first + last) / 2;
-            // sort left half of the array
             mergeSort(words, first, mid);
-            // sort right half of the array
             mergeSort(words, mid + 1, last);
-
-            // merge the two halves
             merge(words, first, mid, last);
         }
     }
@@ -40,12 +36,10 @@ public class MergeSort implements AlgorithmsStrategy {
         String[] tmpList = new String[words.length];
 
         // beginning and end of first subarray
-        int tmpFirstArStart = first;
-        int tmpFirstArEnd = mid;
+        int tmpFirstArStart = first, tmpFirstArEnd = mid;
 
         // beginning end of second subarray
-        int tmpSecondArStart = mid + 1;
-        int tmpSecondArEnd = last;
+        int tmpSecondArStart = mid + 1, tmpSecondArEnd = last;
         int index = tmpFirstArStart;
 
         while((tmpFirstArStart <= tmpFirstArEnd) && (tmpSecondArStart <= tmpSecondArEnd)) {

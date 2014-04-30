@@ -159,30 +159,27 @@ public class Configurations {
                 return false;
             }
             if (nullOrEmpty(fileEncoding) || !isEncodingSupported()) {
-                System.out.println("File encoding is not missing or not supported");
+                System.out.println("File encoding is missing or not supported");
+                return false;
             }
             if (orderType == null) {
-                if (nullOrEmpty(orderTypeStr)) {
+                if (nullOrEmpty(orderTypeStr) || !OrderTypes.contains(orderTypeStr)) {
+                    // this behaviour can be changed to return false - for now use lexical order sorting
+                    System.out.println("Provided OrderType=" + orderTypeStr + " is not valid. Lexical sorting order will be used");
                     orderType = OrderTypes.LEXICAL;
                 } else {
-                    if (OrderTypes.contains(orderTypeStr)) {
-                        orderType = Enum.valueOf(OrderTypes.class, orderTypeStr);
+                    orderType = Enum.valueOf(OrderTypes.class, orderTypeStr);
+
+                    // get the chosen algorithm or use radix as a default choice
+                    if (AlgorithmTypes.contains(algorithmTypeStr)) {
+                        algorithmType = Enum.valueOf(AlgorithmTypes.class, algorithmTypeStr);
                     } else {
-                        // this behaviour can be changed to return false
-                        orderType = OrderTypes.LEXICAL;
+                        System.out.println("Provided SortingAlgorithm=" + algorithmTypeStr + " is not valid. Merge sorting algorithm will be used");
+                        algorithmType = AlgorithmTypes.MERGE;
                     }
 
                     if (orderType == OrderTypes.SPECIFIC) {
                         return validateOrderingLanguage();
-                    }
-
-                    if (orderType != OrderTypes.LEXICAL) {
-                        if (AlgorithmTypes.contains(algorithmTypeStr)) {
-                            algorithmType = Enum.valueOf(AlgorithmTypes.class, algorithmTypeStr);
-                        } else {
-                            // user merge sort as a default choice
-                            algorithmType = AlgorithmTypes.MERGE;
-                        }
                     }
                 }
             }
@@ -215,14 +212,15 @@ public class Configurations {
         langsLocal.put("it", Locale.ITALIAN);
 
         if (nullOrEmpty(sortingLangInit)) {
-            System.out.println("Missing sorting language initials");
+            System.out.println("Missing sorting order language initials");
             return false;
         }
+
         if (langsLocal.containsKey(sortingLangInit)) {
             sortingLangLocal = langsLocal.get(sortingLangInit);
             return true;
         } else {
-            System.out.println(sortingLangInit + " is invalid or not supported initial for language");
+            System.out.println("Provided SortingOrderLangInitials=" + sortingLangInit + " is not supported");
             return false;
         }
     }

@@ -21,22 +21,20 @@ public class LocalOrder extends SortOrder {
 
         System.out.println("Start LocalOrder.process()");
 
-        String[] list = this.readFile();
+        String[] words = this.readFile();
 
-        if (list == null) {
-            System.out.println(this.getConfigurations().getSourceFile() + " is empty or could not read. Exiting!!");
-            return;
+        if (words == null) return;
+
+        // Do not sort if list is empty
+        if (words.length != 0) {
+            AlgorithmsContext context = new AlgorithmsContext(this.getConfigurations().getAlgorithmType());
+            Collator collator = Collator.getInstance();
+            words = context.sort(words, collator);
+        } else {
+            System.out.println("No sorting because the source file " + this.getConfigurations().getSourceFile() + " is empty");
         }
-        if (list.length == 0) {
-            // can stop here from processing further
-            System.out.println(this.getConfigurations().getSourceFile() + " is empty");
-        }
 
-        AlgorithmsContext context = new AlgorithmsContext();
-        Collator collator = Collator.getInstance();
-        list = context.sort(this.getConfigurations().getAlgorithmType(), list, collator);
-
-        this.writeToFile(list);
+        this.writeToFile(words);
 
         System.out.println("End LocalOrder.process()");
     }

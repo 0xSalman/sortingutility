@@ -15,8 +15,10 @@ import java.util.Map;
 public class AlgorithmsContext {
 
     private Map<AlgorithmTypes, AlgorithmsStrategy> strategies;
+    private AlgorithmTypes strategy;
 
-    public AlgorithmsContext() {
+    public AlgorithmsContext(AlgorithmTypes strategy) {
+        this.strategy = strategy;
         strategies = new HashMap<AlgorithmTypes, AlgorithmsStrategy>();
         setStrategies();
     }
@@ -27,7 +29,7 @@ public class AlgorithmsContext {
         strategies.put(AlgorithmTypes.RADIX, new RadixSort());
     }
 
-    public String [] sort(AlgorithmTypes strategy, String[] list, Collator collator) {
-        return strategies.get(strategy).sort(list,collator);
+    public String[] sort(String[] words, Collator collator) {
+        return strategies.get(strategy).sort(words, collator);
     }
 }

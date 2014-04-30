@@ -11,14 +11,11 @@ import com.hubhead.utilities.sort.utils.Configurations;
  */
 public class SortFactory {
 
-    public void process() {
+    public void process(Configurations configurations) {
 
         System.out.println("Start SortFactory.process()");
 
         try {
-            Configurations configurations = new Configurations();
-            configurations.initFromDefaultPropFile();
-
             if (configurations.validateConfigurations()) {
                 System.out.println("Configurations are valid");
                 SortOrder sortOrder = sortOrderBuilder(configurations);

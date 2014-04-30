@@ -22,22 +22,20 @@ public class LexicalOrder extends SortOrder {
 
         String[] words = this.readFile();
 
-        if (words == null) {
-            System.out.println(this.getConfigurations().getSourceFile() + " is empty or could not read. Exiting!!");
-            return;
-        }
-        if (words.length == 0) {
-            // can stop here from processing further
-            System.out.println(this.getConfigurations().getSourceFile() + " is empty");
+        if (words == null) return;
+
+        // Do not sort if list is empty
+        if (words.length != 0) {
+            /* not using custom sorting because java sort by default
+             *  is UTF-16 based and uses modified version of merge sort
+             *  so it should be good
+             */
+            Arrays.sort(words);
+        } else {
+            System.out.println("No sorting because the source file " + this.getConfigurations().getSourceFile() + " is empty");
         }
 
-        /* not using custom sorting because java sort by default
-         *  is UTF-16 based and uses modified version of merge sort
-         *  so it should be good
-         */
-        Arrays.sort(words);
         this.writeToFile(words);
-
         System.out.println("End LexicalOrder.process()");
     }
 }

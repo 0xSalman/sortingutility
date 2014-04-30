@@ -9,67 +9,68 @@ import java.text.Collator;
  */
 public class RadixSort implements AlgorithmsStrategy {
 
+    /**
+     * Collator is not needed because this is not a comparison algorithm
+     */
     @Override
-    public String[] sort(String[] list, Collator collator) {
+    public String[] sort(String[] words, Collator collator) {
 
-        return null;
+        System.out.println("Start RadixSort.sort()");
+        radixQuickSort(words, 0, words.length - 1, 0);
+        System.out.println("End RadixSort.sort()");
+        return words;
     }
 
-    private static void quicksortX(String a[], int lo, int hi, int d)
-    {
+    /**
+     * MSD 3-way radix quick sort - should be faster than normal MSD radix sort and quick sort
+     * @param words
+     * @param lo
+     * @param hi
+     * @param d
+     */
+    private void radixQuickSort(String words[], int lo, int hi, int d) {
+
         if (hi - lo <= 0) return;
-        int i = lo-1, j = hi;
-        int p = lo-1, q = hi;
-        char v = a[hi].
-                charAt(d);
-        while (i < j)
-        {
-            while (a[++i].
-                    charAt(d)
-                    < v) if (i == hi) break;
-            while (v < a[--j]
-                    .charAt(d)
-                    ) if (j == lo) break;
-            if (i > j) break;
-            exch(a, i, j);
-            if (a[i]
-                    .charAt(d)
-                    == v) exch(a, ++p, i);
-            if (a[j]
-                    .charAt(d)
-                    == v) exch(a, j, --q);
+        int i = lo - 1, j = hi;
+        int p = lo - 1, q = hi;
+        char chr = words[hi].charAt(d);
+
+        // 4-way partition with equals at ends
+        while (i < j) {
+            while (words[++i].charAt(d) < chr) if (i == hi) break;
+            while (chr < words[--j].charAt(d)) if (j == lo) break;
+
+            if (i <= j) {
+                swapValues(words, i, j);
+                if (words[i].charAt(d) == chr) swapValues(words, ++p, i);
+                if (words[j].charAt(d) == chr) swapValues(words, j, --q);
+            }
         }
-        if (p == q)
-        {
-            if (v != '\0') quicksortX(a, lo, hi, d+1);
+
+        // special case for all equals
+        if (p == q) {
+            if (chr != '\0') radixQuickSort(words, lo, hi, d + 1);
             return;
         }
-        if (a[i].charAt(d) < v) i++;
-        for (int k = lo; k <= p; k++) exch(a, k, j--);
-        for (int k = hi; k >= q; k--) exch(a, k, i++);
 
-        quicksortX(a, lo, j,
-                d
-        );
-        if ((i == hi) && (a[i].charAt(d) == v)) i++;
-        if (v != '\0')
-            quicksortX(a, j+1, i-1,
-                    d+1
-            );
+        // swap equals back to middle
+        if (words[i].charAt(d) < chr) i++;
+        for (int k = lo; k <= p; k++) swapValues(words, k, j--);
+        for (int k = hi; k >= q; k--) swapValues(words, k, i++);
 
-        quicksortX(a, i, hi,
-                d
-        );
+        // sort 3 pieces recursively
+        radixQuickSort(words, lo, j, d);
+        if ((i == hi) && (words[i].charAt(d) == chr)) i++;
+        if (chr != '\0') radixQuickSort(words, j + 1, i - 1, d + 1);
+        radixQuickSort(words, i, hi, d);
     }
 
-    // exchange a[i] and a[j]
-    private static void exch(String[] a, int i, int j) {
-        String temp = a[i];
-        a[i] = a[j];
-        a[j] = temp;
+    /**
+     * Swap values
+     */
+    private void swapValues(String[] words, int i, int j) {
+        String temp = words[i];
+        words[i] = words[j];
+        words[j] = temp;
     }
-
-    //http://www.cs.princeton.edu/~rs/AlgsDS07/18RadixSort.pdf
-    //http://algs4.cs.princeton.edu/51radix/MSD.java.html
-
 }

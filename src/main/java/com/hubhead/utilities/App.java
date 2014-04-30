@@ -1,16 +1,19 @@
 package com.hubhead.utilities;
 
 import com.hubhead.utilities.sort.SortFactory;
+import com.hubhead.utilities.sort.utils.Configurations;
 
 /**
  * Test sorting utility
- *
  */
-public class App  {
+public class App {
 
-    public static void main( String[] args ) throws Exception {
+    public static void main(String[] args) throws Exception {
 
-       SortFactory sortFactory = new SortFactory();
-       sortFactory.process();
+        Configurations configurations = new Configurations();
+        configurations.initFromDefaultPropFile();
+
+        SortFactory sortFactory = new SortFactory();
+        sortFactory.process(configurations);
     }
 }
